@@ -2,43 +2,21 @@ import React from "react";
 import { connect } from "react-redux";
 import * as courseAction from "../../redux/actions/coursesAction";
 import PropTypes from "prop-types";
+import { bindActionCreators } from "redux";
 
 class CoursesPage extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      course: {
-        title: "",
-      },
-    };
+  componentDidMount() {
+    this.props.actions.loadCourses().catch((error) => {
+      alert(error);
+    });
   }
-  handleChange = (e) => {
-    const course = { ...this.state.course, title: e.target.value };
-    this.setState({ course });
-    console.log(this.state.course);
-  };
-  handleSave = (e) => {
-    e.preventDefault();
-    // debugger;
-    // this.props.dispatch(courseAction.createCourse(this.state.course));
-    this.props.createCourse(this.state.course);
-  };
   render() {
+    console.log(this.props.course);
     return (
       <div>
-        <form onSubmit={this.handleSave}>
-          <h2>Courses</h2>
-          <h3>Add Courses</h3>
-          <input
-            type="text"
-            onChange={this.handleChange}
-            value={this.state.course.title}
-          />
-          <input type="submit" value="save" />
-          {this.props.course.map((c) => (
-            <div key={c.title}>{c.title}</div>
-          ))}
-        </form>
+        {this.props.course.map((c) => (
+          <div key={c.title}>{c.title}</div>
+        ))}
       </div>
     );
   }
@@ -46,8 +24,9 @@ class CoursesPage extends React.Component {
 //  to send dispatch as props
 CoursesPage.propTypes = {
   course: PropTypes.array.isRequired,
-  createCourse: PropTypes.func.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  // createCourse: PropTypes.func.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  actions: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {
@@ -58,7 +37,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    createCourse: (course) => dispatch(courseAction.createCourse(course)),
+    // createCourse: (course) => dispatch(courseAction.createCourse(course)),
+    actions: bindActionCreators(courseAction, dispatch),
   };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
