@@ -24,7 +24,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.API_URL": JSON.stringify("http://loaclhost:3000"),
+      "process.env.API_URL": JSON.stringify("http://loaclhost:3001"), //not working  cors error
     }),
     new HtmlWebpackPlugin({
       template: "src/index.html",

@@ -13,11 +13,20 @@ export function loadCoursesSuccess(course) {
 // 1
 export function loadCourses() {
   return function (dispatch) {
-    return fetch("https://jsonplaceholder.typicode.com/posts")
-      .then((response) => response.json())
+    return courseApi
+      .getCourses()
       .then((course) => {
         dispatch(loadCoursesSuccess(course));
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        throw error;
+      });
+
+    // return fetch("https://jsonplaceholder.typicode.com/posts")
+    //   .then((response) => response.json())
+    //   .then((course) => {
+    //     dispatch(loadCoursesSuccess(course));
+    //   })
+    //   .catch((error) => console.log(error));
   };
 }
