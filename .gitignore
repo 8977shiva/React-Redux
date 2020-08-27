@@ -29,7 +29,11 @@ node_modules
 # Build folder
 build
 
+# Webstorm metadata
+.idea
 
+# Mac files
+.DS_Store
 
 # json-server db
 db.json
